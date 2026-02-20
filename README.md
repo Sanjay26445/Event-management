@@ -59,37 +59,7 @@ python manage.py runserver
 
 Visit `http://127.0.0.1:8000/`
 
-## Deployment (Free Options)
 
-### Option 1: Render.com (Recommended)
-
-1. Push code to GitHub
-2. Go to [render.com](https://render.com)
-3. Create new Web Service
-4. Connect GitHub repository
-5. Set environment variables:
-   - `SECRET_KEY`: Generate with `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`
-   - `DEBUG`: False
-   - `ALLOWED_HOSTS`: your-domain.onrender.com
-6. Build command: `pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput`
-7. Start command: `gunicorn event_management.wsgi:application`
-
-### Option 2: Railway.app
-
-1. Push to GitHub
-2. Go to [railway.app](https://railway.app)
-3. Create new project from GitHub
-4. Add PostgreSQL database
-5. Set environment variables (same as above)
-6. Deploy
-
-### Option 3: Heroku (Limited free tier)
-
-1. Install Heroku CLI
-2. `heroku login`
-3. `heroku create your-app-name`
-4. `git push heroku main`
-5. `heroku run python manage.py migrate`
 
 ## Project Structure
 
@@ -113,20 +83,4 @@ eventmanagement/
 - **Organizer**: Create and manage events, view registrations
 - **Attendee**: Browse and register for events
 
-## Environment Variables
 
-```
-SECRET_KEY=your-secret-key
-DEBUG=False
-ALLOWED_HOSTS=localhost,yourdomain.com
-DATABASE_URL=postgresql://user:password@host/dbname
-```
-
-## Database
-
-- Development: SQLite
-- Production: PostgreSQL (recommended)
-
-## License
-
-MIT License
