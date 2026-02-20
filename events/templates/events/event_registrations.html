@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Event Registrations - {{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>{{ event.title }} - Registrations</h1>
+            <p class="text-muted">Total Registrations: <strong>{{ total_registrations }}</strong></p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'event_detail' event.pk %}" class="btn btn-secondary">Back to Event</a>
+        </div>
+    </div>
+
+    {% if registrations %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Registration Date</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registration in registrations %}
+                        <tr>
+                            <td>{{ registration.user.username }}</td>
+                            <td>{{ registration.user.get_full_name|default:"-" }}</td>
+                            <td>{{ registration.user.email }}</td>
+                            <td>{{ registration.booking_date|date:"M d, Y H:i" }}</td>
+                            <td>
+                                {% if registration.payment_status == 'completed' %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% elif registration.payment_status == 'pending' %}
+                                    <span class="badge bg-warning">Pending</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            <strong>No registrations yet.</strong> No attendees have registered for this event.
+        </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <h5>Event Details</h5>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Date:</strong> {{ event.date|date:"M d, Y" }}</li>
+            <li class="list-group-item"><strong>Time:</strong> {{ event.time|time:"H:i" }}</li>
+            <li class="list-group-item"><strong>Location:</strong> {{ event.location }}</li>
+            <li class="list-group-item"><strong>Total Seats:</strong> {{ event.max_seats }}</li>
+            <li class="list-group-item"><strong>Available Seats:</strong> {{ event.available_seats }}</li>
+            <li class="list-group-item"><strong>Booked Seats:</strong> {{ event.get_booked_seats }}</li>
+            <li class="list-group-item"><strong>Price:</strong> ${{ event.price }}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

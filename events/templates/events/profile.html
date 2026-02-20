@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - Event Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">My Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-3 text-center">
+                                {% if user.profile_image %}
+                                    <img src="{{ user.profile_image.url }}" class="profile-image mb-3" alt="Profile">
+                                {% else %}
+                                    <div class="profile-image mb-3 d-inline-flex align-items-center justify-content-center bg-light">
+                                        <i class="bi bi-person" style="font-size: 2rem; color: #cbd5e1;"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <label for="{{ form.profile_image.id_for_label }}" class="form-label">Profile Image</label>
+                                    {{ form.profile_image }}
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-3">
+                                    <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                                    {{ form.username }}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                                    {{ form.email }}
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                        {{ form.first_name }}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                        {{ form.last_name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
+                            {{ form.bio }}
+                            <small class="form-text text-muted">Tell us about yourself</small>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <strong>Role:</strong> {{ user.get_role_display }}
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

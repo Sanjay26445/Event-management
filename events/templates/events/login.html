@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Event Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">Login</h2>
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+                    </form>
+                    
+                    <p class="text-center text-muted mb-3">
+                        Don't have an account? <a href="{% url 'register' %}">Register here</a>
+                    </p>
+                    
+                    <hr>
+                    
+                    <div class="alert alert-info small">
+                        <strong>Demo Credentials:</strong><br>
+                        Admin: admin / admin123<br>
+                        Organizer: organizer / org123<br>
+                        Attendee: attendee / att123
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

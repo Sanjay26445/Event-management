@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Events - Event Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Manage Events</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if events %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Organizer</th>
+                                <th>Date</th>
+                                <th>Registrations</th>
+                                <th>Price</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                                <tr>
+                                    <td>{{ event.title }}</td>
+                                    <td>{{ event.created_by.get_full_name|default:event.created_by.username }}</td>
+                                    <td>{{ event.date|date:"M d, Y" }} {{ event.time|time:"H:i" }}</td>
+                                    <td>{{ event.get_booked_seats }}/{{ event.max_seats }}</td>
+                                    <td>
+                                        {% if event.price > 0 %}
+                                            ${{ event.price }}
+                                        {% else %}
+                                            Free
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ event.created_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        <a href="{% url 'event_detail' event.pk %}" class="btn btn-sm btn-info">View</a>
+                                        <a href="{% url 'edit_event' event.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{% url 'delete_event' event.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No events found.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
